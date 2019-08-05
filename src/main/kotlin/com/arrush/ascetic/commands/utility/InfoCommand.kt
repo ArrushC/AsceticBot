@@ -28,7 +28,7 @@ class InfoCommand : Command("info", CommandCategory.UTILITY, "info [guild]", "Te
         val cpu = osManagement.systemCpuLoad * 100
         val freeMemory = FileUtils.byteCountToDisplaySize(Runtime.getRuntime().freeMemory())
         val totalMemory = FileUtils.byteCountToDisplaySize(Runtime.getRuntime().totalMemory())
-        val uptimeDiff = System.currentTimeMillis() - AsceticBot.instance.startTime
+        val uptimeDiff = System.currentTimeMillis() - AsceticBot.INSTANCE.startTime
         val uptime: String = SimpleDateFormat("dd-HH-mm").format(Date(uptimeDiff))
                 .orderedReplace("-", " days, ", " hours and ")+ " minutes"
 
@@ -37,7 +37,7 @@ class InfoCommand : Command("info", CommandCategory.UTILITY, "info [guild]", "Te
             "Hello! Here below are some things that you might get to know about me!",
             listOf(
                     listOf("Bot Version", Constants.VERSION.getString(), true),
-                    listOf("Bot Commands", AsceticBot.instance.commandManager.commands.size.toString(), true),
+                    listOf("Bot Commands", AsceticBot.INSTANCE.commandManager.commands.size.toString(), true),
                     listOf("D4J Version", GitProperties.GIT_COMMIT_ID_DESCRIBE, true),
                     listOf("CPU Usage", "CPU: `$cpu%`\nRAM: `$freeMemory`", true),
                     listOf("Memory Usage", "`$freeMemory` / `$totalMemory`", true),

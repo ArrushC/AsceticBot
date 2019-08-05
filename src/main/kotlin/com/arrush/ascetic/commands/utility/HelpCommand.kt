@@ -26,7 +26,7 @@ class HelpCommand : Command("help", CommandCategory.UTILITY, "{prefix}help", "Pr
                     .setFooter("Page ${index+1} / ${CommandCategory.values().size}", null)
                     .setTimestamp(Instant.now())
 
-                for ((name, command) in AsceticBot.instance.commandManager.commands.toList().stream().filter { it.second.category == category}.toList()) {
+                for ((name, command) in AsceticBot.INSTANCE.commandManager.commands.toList().stream().filter { it.second.category == category}.toList()) {
                     spec.addField("${name.capitalize()} Command", "**Description:** ${command.description}\n**Help:** ${command.help}", true)
                 }
             }
@@ -39,7 +39,7 @@ class HelpCommand : Command("help", CommandCategory.UTILITY, "{prefix}help", "Pr
     }
 
     private fun onSingleHelpCommand(event: CommandEvent) {
-        val commands = AsceticBot.instance.commandManager.commands
+        val commands = AsceticBot.INSTANCE.commandManager.commands
         val commandName = event.args[0]
         if (!commands.containsKey(commandName)) {
             event.reply("`${commandName.capitalize()}` Command does not exist.\nPlease try again.")

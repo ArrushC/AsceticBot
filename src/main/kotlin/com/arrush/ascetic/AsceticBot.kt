@@ -15,7 +15,10 @@ import java.awt.Color
 
 
 @Suppress("MemberVisibilityCanBePrivate")
-class AsceticBot(val token: String) {
+enum class AsceticBot {
+
+    INSTANCE;
+
     val listenerManager: ListenerManager = ListenerManager()
     val commandManager: CommandManager = CommandManager()
     val messageScheduler: EventScheduler<MessageCreateEvent> = EventScheduler(MessageCreateEvent::class.java)
@@ -24,23 +27,21 @@ class AsceticBot(val token: String) {
     //val lpManager: LavaPlayerManager = LavaPlayerManager()
 
     companion object {
-        lateinit var instance: AsceticBot
-
         @JvmStatic
         fun main(args: Array<String>) {
-            instance = AsceticBot(args[0])
-            instance.start()
+            AsceticBot.INSTANCE.start(args[0])
         }
     }
 
-    private fun start() {
-        this.initD4J()
+    private fun start(token: String) {
+        this.initD4J(token)
     }
 
-    private fun initD4J() {
-        val client = DiscordClientBuilder(this.token)
+    private fun initD4J(token: String) {
+        val client = DiscordClientBuilder(token)
                 .setInitialPresence(Presence.doNotDisturb(Activity.listening("@Unique Bot help")))
                 .build()
+
         client.eventDispatcher.on(Event::class.java).subscribe { this.listenerManager.fireListeners(it) }
         client.eventDispatcher.on(MessageCreateEvent::class.java).subscribe { this.messageScheduler.onGenericEvent(it) }
         client.eventDispatcher.on(ReactionAddEvent::class.java).subscribe { this.reactionScheduler.onGenericEvent(it) }

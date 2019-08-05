@@ -25,10 +25,10 @@ class CommandListener: IListener {
         args.removeAll { it.isEmpty() }
         val commandName = args.getAndRemove(0)
 
-        if (!AsceticBot.instance.commandManager.commands.containsKey(commandName)) return
+        if (!AsceticBot.INSTANCE.commandManager.commands.containsKey(commandName)) return
         if (Constants.IS_LOCKDOWN.getBoolean() && !DiscordUtils.isDeveloper(cmdEvent.authorId)) return
-        if (AsceticBot.instance.commandManager.commands[commandName]?.category == CommandCategory.DEVELOPERS && !DiscordUtils.isDeveloper(cmdEvent.authorId)) return
+        if (AsceticBot.INSTANCE.commandManager.commands[commandName]?.category == CommandCategory.DEVELOPERS && !DiscordUtils.isDeveloper(cmdEvent.authorId)) return
 
-        AsceticBot.instance.commandManager.commands[commandName]!!.runCommand(cmdEvent)
+        AsceticBot.INSTANCE.commandManager.commands[commandName]!!.runCommand(cmdEvent)
     }
 }

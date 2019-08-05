@@ -28,7 +28,7 @@ class Paginator internal constructor(private val tag: String, private val pages:
     }
 
     private fun paginate(e: MessageCreateEvent) {
-        AsceticBot.instance.reactionScheduler.scheduleEvent(tag ,e.guildId.orElse(emptySnowflake())) {
+        AsceticBot.INSTANCE.reactionScheduler.scheduleEvent(tag ,e.guildId.orElse(emptySnowflake())) {
             if ((it.messageId != this.messageId) || (it.userId != e.member.map { u -> u.id}.orElse(emptySnowflake())) || (e.message.channelId != it.channelId)) return@scheduleEvent ScheduleStatus(ScheduleStatus.Status.NOT_COMPLETED, 301)
 
             when (it.emoji) {
