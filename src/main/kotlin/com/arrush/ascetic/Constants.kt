@@ -12,7 +12,8 @@ enum class Constants(private val value: Any) {
     MENTION("<@607528672898842644>"),
     COLOUR(Color(255, 6, 6)),
     DEV_IDS(mapOf(Pair("Arrush", Snowflake.of(500360024242126849)), Pair("BloodyDev", Snowflake.of(270672369675272206)))), // first is mine next is bloody dev's.
-    LOGGER(Logger("AsceticBot"));
+    LOGGER(Logger("AsceticBot")),
+    START_CMD(listOf(""));
 
     fun get() = value
     fun getMap(): Map<*, *> = this.value as Map<*, *>

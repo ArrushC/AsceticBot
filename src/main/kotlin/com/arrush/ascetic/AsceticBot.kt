@@ -1,13 +1,12 @@
 package com.arrush.ascetic
 
-import com.arrush.logger.Logger
 import com.arrush.ascetic.internal.command.CommandManager
 import com.arrush.ascetic.listeners.ListenerManager
 import com.arrush.ascetic.listeners.eschedule.EventScheduler
+import com.arrush.threadding.RestartThread
 import discord4j.core.DiscordClientBuilder
 import discord4j.core.`object`.presence.Activity
 import discord4j.core.`object`.presence.Presence
-import discord4j.core.`object`.util.Snowflake
 import discord4j.core.event.domain.Event
 import discord4j.core.event.domain.message.MessageCreateEvent
 import discord4j.core.event.domain.message.ReactionAddEvent
@@ -24,22 +23,29 @@ enum class AsceticBot {
     val messageScheduler: EventScheduler<MessageCreateEvent> = EventScheduler(MessageCreateEvent::class.java)
     val reactionScheduler: EventScheduler<ReactionAddEvent> = EventScheduler(ReactionAddEvent::class.java)
     val startTime: Long = System.currentTimeMillis()
+    lateinit var token: String
     //val lpManager: LavaPlayerManager = LavaPlayerManager()
 
     companion object {
         @JvmStatic
-        fun main(args: Array<String>) {
+        fun main(vararg args: String) {
             AsceticBot.INSTANCE.start(args[0])
         }
     }
 
     private fun start(token: String) {
+        this.token = token
+        this.initThreads()
         this.initD4J(token)
+    }
+
+    private fun initThreads() {
+        Runtime.getRuntime().addShutdownHook(RestartThread("Restart-Hook"))
     }
 
     private fun initD4J(token: String) {
         val client = DiscordClientBuilder(token)
-                .setInitialPresence(Presence.doNotDisturb(Activity.listening("@Unique Bot help")))
+                .setInitialPresence(Presence.doNotDisturb(Activity.listening("@Ascetic Bot help")))
                 .build()
 
         client.eventDispatcher.on(Event::class.java).subscribe { this.listenerManager.fireListeners(it) }
