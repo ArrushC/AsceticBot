@@ -1,6 +1,5 @@
 package com.arrush.threadding
 
-import com.arrush.ascetic.AsceticBot
 import com.arrush.ascetic.Constants
 import com.arrush.logger.Logger
 

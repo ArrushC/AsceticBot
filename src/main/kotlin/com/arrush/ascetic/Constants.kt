@@ -19,6 +19,7 @@ enum class Constants(private val value: Any) {
     fun getMap(): Map<*, *> = this.value as Map<*, *>
     fun getList(): List<*> = this.value as List<*>
     fun getString(): String = this.value as String
+    override fun toString(): String = this.value as String
     fun getInteger(): Int = this.value as Int
     fun getLong(): Long = this.value as Long
     fun getBoolean(): Boolean = this.value as Boolean

@@ -3,6 +3,7 @@ package com.arrush.ascetic
 import com.arrush.ascetic.internal.command.CommandManager
 import com.arrush.ascetic.listeners.ListenerManager
 import com.arrush.ascetic.listeners.eschedule.EventScheduler
+import com.arrush.database.DatabaseManager
 import com.arrush.threadding.RestartThread
 import discord4j.core.DiscordClientBuilder
 import discord4j.core.`object`.presence.Activity
@@ -10,7 +11,6 @@ import discord4j.core.`object`.presence.Presence
 import discord4j.core.event.domain.Event
 import discord4j.core.event.domain.message.MessageCreateEvent
 import discord4j.core.event.domain.message.ReactionAddEvent
-import java.awt.Color
 
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -23,8 +23,8 @@ enum class AsceticBot {
     val messageScheduler: EventScheduler<MessageCreateEvent> = EventScheduler(MessageCreateEvent::class.java)
     val reactionScheduler: EventScheduler<ReactionAddEvent> = EventScheduler(ReactionAddEvent::class.java)
     val startTime: Long = System.currentTimeMillis()
-    lateinit var token: String
-    //val lpManager: LavaPlayerManager = LavaPlayerManager()
+    val dbManager: DatabaseManager = DatabaseManager()
+    private lateinit var token: String
 
     companion object {
         @JvmStatic
@@ -39,6 +39,7 @@ enum class AsceticBot {
         this.initD4J(token)
     }
 
+    // some crap method. will remove it soon.
     private fun initThreads() {
         Runtime.getRuntime().addShutdownHook(RestartThread("Restart-Hook"))
     }
@@ -55,4 +56,5 @@ enum class AsceticBot {
         client.login().block()
     }
 
+    fun getToken() = this.token
 }

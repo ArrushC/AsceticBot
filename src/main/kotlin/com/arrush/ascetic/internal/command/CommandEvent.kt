@@ -1,14 +1,10 @@
 package com.arrush.ascetic.internal.command
 
-import com.arrush.ascetic.AsceticBot
 import com.arrush.ascetic.Constants
 import com.arrush.ascetic.utility.emptySnowflake
 import com.arrush.ascetic.utility.removeAllAndForm
 import discord4j.core.DiscordClient
-import discord4j.core.`object`.entity.Guild
-import discord4j.core.`object`.entity.Message
-import discord4j.core.`object`.entity.MessageChannel
-import discord4j.core.`object`.entity.User
+import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.util.Snowflake
 import discord4j.core.event.domain.message.MessageCreateEvent
 import discord4j.core.spec.EmbedCreateSpec
@@ -25,6 +21,7 @@ class CommandEvent(val args: MutableList<String>, val event: MessageCreateEvent)
     val contentClean: String get() =  args.removeAllAndForm { it.contains(Regex("(<(@|!@)([0-9]+)+>)+")) }.joinToString(separator = " ").removeSurrounding(" ")
     val message: Message get() = this.event.message
     val messageId: Snowflake get() = this.message.id
+    val member: Optional<Member> get() = this.event.member
     val author: Optional<User> get() = this.event.message.author
     val authorName: String get() = this.author.map {it.username}.orElse("")
     val authorId: Snowflake get() = this.author.map {it.id}.orElse(Snowflake.of(0))
