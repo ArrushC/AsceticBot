@@ -1,4 +1,4 @@
-package com.arrush.logger
+package com.arrush.ascetic.internal.logger
 
 import java.time.LocalDateTime
 

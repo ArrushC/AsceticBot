@@ -1,4 +1,4 @@
-package com.arrush.database.user
+package com.arrush.ascetic.internal.database.user
 
 enum class UserDatabase {
     INSTANCE;

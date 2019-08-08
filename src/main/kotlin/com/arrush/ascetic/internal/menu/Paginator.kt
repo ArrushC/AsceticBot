@@ -1,4 +1,4 @@
-package com.arrush.menu
+package com.arrush.ascetic.internal.menu
 
 import com.arrush.ascetic.AsceticBot
 import com.arrush.ascetic.listeners.eschedule.ScheduleStatus

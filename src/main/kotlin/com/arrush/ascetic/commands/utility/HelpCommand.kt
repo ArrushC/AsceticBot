@@ -1,6 +1,6 @@
 package com.arrush.ascetic.commands.utility
 
-import com.arrush.menu.PaginatorBuilder
+import com.arrush.ascetic.internal.menu.PaginatorBuilder
 import com.arrush.ascetic.AsceticBot
 import com.arrush.ascetic.internal.command.Command
 import com.arrush.ascetic.internal.command.CommandCategory

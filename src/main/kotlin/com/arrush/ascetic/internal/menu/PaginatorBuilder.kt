@@ -1,4 +1,4 @@
-package com.arrush.menu
+package com.arrush.ascetic.internal.menu
 
 import discord4j.core.spec.EmbedCreateSpec
 import java.util.*

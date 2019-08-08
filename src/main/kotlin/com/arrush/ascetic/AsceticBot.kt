@@ -1,16 +1,16 @@
 package com.arrush.ascetic
 
 import com.arrush.ascetic.internal.command.CommandManager
+import com.arrush.ascetic.internal.threadding.RestartThread
 import com.arrush.ascetic.listeners.ListenerManager
 import com.arrush.ascetic.listeners.eschedule.EventScheduler
-import com.arrush.database.DatabaseManager
-import com.arrush.threadding.RestartThread
 import discord4j.core.DiscordClientBuilder
 import discord4j.core.`object`.presence.Activity
 import discord4j.core.`object`.presence.Presence
 import discord4j.core.event.domain.Event
 import discord4j.core.event.domain.message.MessageCreateEvent
 import discord4j.core.event.domain.message.ReactionAddEvent
+import me.arrush.javabase.databases.Database
 
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -23,7 +23,7 @@ enum class AsceticBot {
     val messageScheduler: EventScheduler<MessageCreateEvent> = EventScheduler(MessageCreateEvent::class.java)
     val reactionScheduler: EventScheduler<ReactionAddEvent> = EventScheduler(ReactionAddEvent::class.java)
     val startTime: Long = System.currentTimeMillis()
-    val dbManager: DatabaseManager = DatabaseManager()
+    val database: Database = Database.withPostgres(5430, "postgres", "Arrush", "Password")!!
     private lateinit var token: String
 
     companion object {

@@ -1,6 +1,6 @@
 package com.arrush.ascetic
 
-import com.arrush.logger.Logger
+import com.arrush.ascetic.internal.logger.Logger
 import discord4j.core.`object`.util.Snowflake
 import java.awt.Color
 
@@ -13,6 +13,7 @@ enum class Constants(private val value: Any) {
     COLOUR(Color(255, 6, 6)),
     DEV_IDS(mapOf(Pair("Arrush", Snowflake.of(500360024242126849)), Pair("BloodyDev", Snowflake.of(270672369675272206)))), // first is mine next is bloody dev's.
     LOGGER(Logger("AsceticBot")),
+    PREMIUM_ROLEID(596346917705875470),
     START_CMD(listOf(""));
 
     fun get() = value

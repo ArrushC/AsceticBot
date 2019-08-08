@@ -1,4 +1,4 @@
-package com.arrush.database.user
+package com.arrush.ascetic.internal.database.user
 
 import me.arrush.javabase.annotations.SQLColumn
 
