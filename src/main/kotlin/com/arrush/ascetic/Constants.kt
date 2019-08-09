@@ -5,7 +5,7 @@ import discord4j.core.`object`.util.Snowflake
 import java.awt.Color
 
 @Suppress("unused")
-enum class Constants(private val value: Any) {
+enum class Constants(protected val value: Any) {
     PREFIX("->"),
     VERSION("1.3.0"),
     IS_LOCKDOWN(false),
@@ -16,7 +16,13 @@ enum class Constants(private val value: Any) {
     PREMIUM_ROLEID(596346917705875470),
     START_CMD(listOf(""));
 
-    fun get() = value
+    companion object {
+        fun getLogger(): Logger = LOGGER.get() as Logger
+        fun getPrefix(): String = PREFIX.get() as String
+        fun getVersion(): String = VERSION.get() as String
+    }
+
+    fun get() = this.value
     fun getMap(): Map<*, *> = this.value as Map<*, *>
     fun getList(): List<*> = this.value as List<*>
     fun getString(): String = this.value as String
