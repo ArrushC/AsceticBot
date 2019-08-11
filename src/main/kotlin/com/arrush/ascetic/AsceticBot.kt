@@ -1,6 +1,7 @@
 package com.arrush.ascetic
 
 import com.arrush.ascetic.internal.command.CommandManager
+import com.arrush.ascetic.internal.database.guild.GuildDatabase
 import com.arrush.ascetic.internal.threadding.RestartThread
 import com.arrush.ascetic.listeners.ListenerManager
 import com.arrush.ascetic.listeners.eschedule.EventScheduler
@@ -13,7 +14,6 @@ import discord4j.core.event.domain.message.ReactionAddEvent
 import me.arrush.javabase.databases.Database
 
 
-@Suppress("MemberVisibilityCanBePrivate")
 enum class AsceticBot {
 
     INSTANCE;
@@ -35,8 +35,14 @@ enum class AsceticBot {
 
     private fun start(token: String) {
         this.token = token
+        this.loadDatabases()
         this.initThreads()
         this.initD4J(token)
+    }
+
+
+    private fun loadDatabases() {
+        GuildDatabase.INSTANCE.loadData()
     }
 
     // some crap method. will remove it soon.
