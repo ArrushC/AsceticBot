@@ -14,11 +14,11 @@ class EightBallCommand : Command("8ball", CommandCategory.FUN, "8ball <question>
             "Its uncertain", "No, not in a million years"
     )
 
-    override fun onCommand(event: CommandEvent): Mono<Void> =event.channel.flatMap {
-            it.createMessage { spec ->
-                spec.setEmbed(event.replyEmbed(description = choices[Random.nextInt(0, choices.size -1)], title = "Response to ${event.authorName}'s question", footer = listOf(event.args.joinToString(separator = " ").removeSurrounding(" "), null, null)))
-            }
-        }.then()
+    override fun onCommand(event: CommandEvent): Mono<Void> = event.replyEmbed(event.getEmbed(
+            description = choices[Random.nextInt(0, choices.size -1)],
+            title = "Response to ${event.authorName}'s question",
+            footer = listOf(event.args.joinToString(separator = " ").removeSurrounding(" "), null, null))
+    ).then()
 
     override fun runCommand(event: CommandEvent) {
         if (event.hasArgs) super.runCommand(event)

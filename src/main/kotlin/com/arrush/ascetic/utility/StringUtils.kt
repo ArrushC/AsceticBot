@@ -20,3 +20,13 @@ fun String.count(value: String): Int {
     }
     return count
 }
+
+
+
+operator fun String.times(quantity: Long): String {
+    var string = ""
+    for (i in 1..quantity) {
+        string += this
+    }
+    return string
+}

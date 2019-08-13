@@ -1,4 +1,4 @@
-package com.arrush.ascetic.commands.devs
+package com.arrush.ascetic.commands.developer
 
 import com.arrush.ascetic.internal.command.Command
 import com.arrush.ascetic.internal.command.CommandCategory

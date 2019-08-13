@@ -14,7 +14,6 @@ class ListenerManager {
 
     init {
         this.listeners = getListeners()
-        println(this.listeners.toString())
     }
 
     private fun getListeners(): List<IListener> = Reflections(ListenerManager::class.java.`package`.name).getMappedSubTypes(IListener::class.java)

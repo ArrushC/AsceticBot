@@ -33,8 +33,9 @@ class CommandEvent(val args: MutableList<String>, val event: MessageCreateEvent)
 
     fun replyAndGet(message: String): Mono<Message> = this.channel.flatMap { it.createMessage(message) }
     fun reply(message: String) {this.replyAndGet(message).subscribe()}
+    fun replyEmbed(spec: (EmbedCreateSpec) -> Unit): Mono<Message> = this.channel.flatMap { it.createEmbed(spec) }
 
-    fun replyEmbed(title: String="", description: String="", author: List<String> = emptyList(), url: String ="", timestamp: Instant = Instant.now(), footer: List<String?> = emptyList(), imageUrl: String= "", thumbnailUrl: String="",  fields: List<List<Any>> = emptyList()): (EmbedCreateSpec) -> Unit = {
+    fun getEmbed(title: String="", description: String="", author: List<String> = emptyList(), url: String ="", timestamp: Instant = Instant.now(), footer: List<String?> = emptyList(), imageUrl: String= "", thumbnailUrl: String="",  fields: List<List<Any>> = emptyList()): (EmbedCreateSpec) -> Unit = {
         it.setColor(Constants.COLOUR.get() as Color)
         it.setTimestamp(timestamp)
 
@@ -51,7 +52,7 @@ class CommandEvent(val args: MutableList<String>, val event: MessageCreateEvent)
             }
         }
     }
-    fun replyEmbed(title: String?, description: String?, fields: List<List<Any>>, footer: List<String?> = emptyList()): (EmbedCreateSpec) -> Unit = {
+    fun getEmbed(title: String?, description: String?, fields: List<List<Any>>, footer: List<String?> = emptyList()): (EmbedCreateSpec) -> Unit = {
         it.setColor(Constants.COLOUR.get() as Color)
         it.setTimestamp(Instant.now())
 

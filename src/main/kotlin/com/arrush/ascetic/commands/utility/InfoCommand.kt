@@ -32,7 +32,7 @@ class InfoCommand : Command("info", CommandCategory.UTILITY, "info [guild]", "Te
         val uptime: String = SimpleDateFormat("dd-HH-mm").format(Date(uptimeDiff))
                 .orderedReplace("-", " days, ", " hours and ")+ " minutes"
 
-        return event.channel.flatMap { it.createEmbed(event.replyEmbed(
+        return event.replyEmbed(event.getEmbed(
             "Information about Unique Bot",
             "Hello! Here below are some things that you might get to know about me!",
             listOf(
@@ -43,7 +43,7 @@ class InfoCommand : Command("info", CommandCategory.UTILITY, "info [guild]", "Te
                     listOf("Memory Usage", "`$freeMemory` / `$totalMemory`", true),
                     listOf("Thread Count", Thread.activeCount().toString(), true),
                     listOf("Uptime", uptime, true)
-            ), footer = listOf("Requested by ${event.authorName}#${event.authorDiscriminator}", null)) )}.then()
+            ), footer = listOf("Requested by ${event.authorName}#${event.authorDiscriminator}", null))).then()
     }
 
     private fun guildInfo(event: CommandEvent): Mono<Void> =event.guild.map { Container(it.emojis, it.memberCount.asInt,  it.channels, it.afkChannel, it.members, it.afkTimeout) }.flatMap {container ->  event.channel.flatMap { chan -> chan.createEmbed { spec ->
