@@ -19,11 +19,13 @@ class ListenerManager {
     private fun getListeners(): List<IListener> = Reflections(ListenerManager::class.java.`package`.name).getMappedSubTypes(IListener::class.java)
 
     fun fireListeners(event: Event) {
+        println("Firing")
         when (event) {
-            is MessageCreateEvent -> listeners.forEach { it.onMessageCreate(event) }
-            is ReadyEvent -> listeners.forEach { it.onBotReady(event) }
-            else -> listeners.forEach { it.onGenericEvent(event) }
+            is MessageCreateEvent -> {println("message"); listeners.forEach { it.onMessageCreate(event) }}
+            is ReadyEvent -> {println("ready"); listeners.forEach { it.onBotReady(event) }}
+            else -> {println("generic"); listeners.forEach { it.onGenericEvent(event) } }
         }
+        println("Done")
     }
 
     private fun slowMethod(event: Event) {

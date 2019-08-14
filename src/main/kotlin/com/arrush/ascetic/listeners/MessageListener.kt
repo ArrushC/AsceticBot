@@ -9,6 +9,7 @@ import com.arrush.ascetic.utility.DiscordUtils
 import com.arrush.ascetic.utility.getAndRemove
 import com.arrush.ascetic.utility.substringIf
 import discord4j.core.event.domain.message.MessageCreateEvent
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class MessageListener: IListener {
@@ -17,7 +18,9 @@ class MessageListener: IListener {
         if (event.message.author.map { it.isBot }.orElse(false) ) return
         println("thonk")
         this.execCommand(event)
-        this.addExp(event)
+        println("Executing exp")
+        //this.addExp(event)
+        println("Finished executing exp")
     }
 
     private fun execCommand(event: MessageCreateEvent) {
@@ -28,6 +31,8 @@ class MessageListener: IListener {
         val prefix = if (content.startsWith(Constants.MENTION.getString())) {
             Constants.MENTION.getString()
         } else AsceticBot.INSTANCE.guildDb.guilds[event.guildId.orElse(null).asLong()]!!.prefix
+
+        println(prefix)
 
         println("Good")
 
@@ -47,25 +52,35 @@ class MessageListener: IListener {
         println("Excellent")
 
         AsceticBot.INSTANCE.commandManager.commands[commandName]!!.runCommand(cmdEvent)
-
+        println("Aftermath of $commandName Command")
     }
 
     private fun addExp(event: MessageCreateEvent) {
-        val userId = event.member.orElse(null).id
-        val expData = AsceticBot.INSTANCE.userDb.users[userId.asLong()]!!.expData
+        val userId = Objects.requireNonNull(event.member.map { it.id }.orElse(null))
+        println("Grabbing data")
+        val data = Objects.requireNonNull(AsceticBot.INSTANCE.userDb.users[userId.asLong()]!!)
         val key = "${userId.asString()}-exp"
 
+        println("Checking for exp")
+
         if (!CooldownManager.INSTANCE.isOnCooldown(key)) {
-            expData.addExp(10)
+            println("Not on cooldown...")
+            data.exp += 10
+            println("Added exo.")
             CooldownManager.INSTANCE.addCooldown(key, 2, TimeUnit.MINUTES)
+            println("Cooldown on. User gained 10 exp. Now has ${data.exp} and is level ${data.lvl}")
         } else {
             println("Tried to gain exp but has ${CooldownManager.INSTANCE.getRemainingCooldown(key, TimeUnit.SECONDS)} seconds remaining.")
         }
 
-        expData.levelUp {success ->
+        val expToNext = (data.lvl + 1) * 100
+        if ((data.exp / expToNext) == 1L) { // user has arrived to a new level.
+            data.lvl += 1
             event.message.channel
-                    .flatMap { it.createMessage(":uo: **Congratulations! You just leveled up to lvl ${success.getLvl()}**") }
+                    .flatMap { it.createMessage(":uo: **Congratulations! You just leveled up to lvl ${data.lvl}**") }
                     .subscribe()
         }
+
+        AsceticBot.INSTANCE.userDb.modify(data)
     }
 }

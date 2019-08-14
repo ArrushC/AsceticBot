@@ -33,7 +33,7 @@ class UserDatabase(database: Database): AbstractDatabase<UserData, User>() {
 
     override fun modify(data: UserData) {
         val fieldValues: Map<String, Any> = UserData::class.declaredMemberProperties.filter { it.findAnnotation<SQLColumn>() != null }
-                .map { it.findAnnotation<SQLColumn>()!!.column to it.get(data)!! }.toMap() // Map<ColumnName, ColumnValue>
+                .map { it.findAnnotation<SQLColumn>()!!.column to it.get(data)!! }.toMap()
         this.userTable.update().withStatement(this.updateStatement(fieldValues)).queue()
         this.users.replace(data.userId, data)
     }

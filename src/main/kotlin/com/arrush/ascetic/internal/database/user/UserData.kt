@@ -7,5 +7,5 @@ data class UserData(@SQLColumn(column = "id") val userId: Long,
                     @SQLColumn(column = "level") internal var lvl: Long=0,
                     @SQLColumn(column = "isPremium") var isPremium: Boolean=false) {
 
-    var expData = ExpData(this)
+    //var expData = ExpData(this)
 }

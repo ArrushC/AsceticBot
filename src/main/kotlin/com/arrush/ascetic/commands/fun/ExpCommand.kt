@@ -4,7 +4,6 @@ import com.arrush.ascetic.AsceticBot
 import com.arrush.ascetic.internal.command.Command
 import com.arrush.ascetic.internal.command.CommandCategory
 import com.arrush.ascetic.internal.command.CommandEvent
-import com.arrush.ascetic.internal.database.user.ExpData
 import com.arrush.ascetic.utility.times
 import reactor.core.publisher.Mono
 import java.lang.Math.round
@@ -13,10 +12,10 @@ class ExpCommand : Command("exp", CommandCategory.FUN, "exp", "Check where how m
     private val bars = 10
 
     override fun onCommand(event: CommandEvent): Mono<Void> {
-        val expData: ExpData = AsceticBot.INSTANCE.userDb.users[event.authorId.asLong()]!!.expData
+        val data = AsceticBot.INSTANCE.userDb.users[event.authorId.asLong()]!!
 
-        val totalExp = expData.getExp()
-        val level = expData.getLvl()
+        val totalExp = data.exp
+        val level = data.lvl
         val expToNext = (level + 1) * 100
         val barsNeeded = round(((totalExp / expToNext).toDouble())) * this.bars
         val barsRemaining = this.bars - barsNeeded
