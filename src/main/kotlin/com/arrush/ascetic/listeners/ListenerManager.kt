@@ -1,10 +1,9 @@
 package com.arrush.ascetic.listeners
 
-import com.arrush.ascetic.utility.getMappedSubTypes
 import discord4j.core.event.domain.Event
+import discord4j.core.event.domain.guild.GuildCreateEvent
 import discord4j.core.event.domain.lifecycle.ReadyEvent
 import discord4j.core.event.domain.message.MessageCreateEvent
-import org.reflections.Reflections
 import java.util.*
 import kotlin.streams.toList
 
@@ -16,16 +15,16 @@ class ListenerManager {
         this.listeners = getListeners()
     }
 
-    private fun getListeners(): List<IListener> = Reflections(ListenerManager::class.java.`package`.name).getMappedSubTypes(IListener::class.java)
+    //private fun getListeners(): List<IListener> = Reflections(ListenerManager::class.java.`package`.name).getMappedSubTypes(IListener::class.java)
+    private fun getListeners(): List<IListener> = listOf(BotListener(), MessageListener())
 
     fun fireListeners(event: Event) {
-        println("Firing")
         when (event) {
-            is MessageCreateEvent -> {println("message"); listeners.forEach { it.onMessageCreate(event) }}
-            is ReadyEvent -> {println("ready"); listeners.forEach { it.onBotReady(event) }}
-            else -> {println("generic"); listeners.forEach { it.onGenericEvent(event) } }
+            is MessageCreateEvent ->  listeners.forEach { it.onMessageCreate(event) }
+            is ReadyEvent ->  listeners.forEach { it.onBotReady(event) }
+            is GuildCreateEvent -> listeners.forEach {it.onGuildCreate(event)}
+            else -> listeners.forEach { it.onGenericEvent(event) }
         }
-        println("Done")
     }
 
     private fun slowMethod(event: Event) {

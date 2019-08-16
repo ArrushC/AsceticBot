@@ -8,8 +8,8 @@ import java.awt.Color
 
 @Suppress("unused")
 enum class Constants(protected val value: Any) {
-    PREFIX("->"),
-    VERSION("1.3.0"),
+    PREFIX(">"),
+    VERSION("1.4.0"),
     IS_LOCKDOWN(false),
     MENTION("<@607528672898842644>"),
     COLOUR(Color(255, 6, 6)),
@@ -21,17 +21,17 @@ enum class Constants(protected val value: Any) {
 
     companion object {
         fun getLogger(): Logger = LOGGER.get() as Logger
-        fun getPrefix(): String = PREFIX.get() as String
-        fun getVersion(): String = VERSION.get() as String
-        fun getGuildDbColumns(): Map<String, Column> = mapOf(
+        fun getPrefix(): String = PREFIX.getString()
+        fun getVersion(): String = VERSION.getString()
+        fun getGuildDbColumns(): LinkedHashMap<String, Column> = linkedMapOf(
                 "id" to Column("id", DataType.BIGINT),
                 "prefix" to Column("prefix", DataType.TEXT)
         )
-        fun getUserDbColumns(): Map<String, Column> = mapOf(
+        fun getUserDbColumns(): LinkedHashMap<String, Column> = linkedMapOf(
                 "id" to Column("id", DataType.BIGINT),
                 "exp" to Column("exp", DataType.BIGINT),
                 "level" to Column("level", DataType.BIGINT),
-                "isPremium" to Column("isPremium", DataType.BOOLEAN)
+                "ispremium" to Column("ispremium", DataType.BOOLEAN)
         )
     }
 

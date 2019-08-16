@@ -1,6 +1,7 @@
 package com.arrush.ascetic
 
 import com.arrush.ascetic.internal.command.CommandManager
+import com.arrush.ascetic.internal.cooldown.CooldownApplier
 import com.arrush.ascetic.internal.database.guild.GuildDatabase
 import com.arrush.ascetic.internal.database.user.UserDatabase
 import com.arrush.ascetic.internal.threadding.RestartThread
@@ -12,8 +13,11 @@ import discord4j.core.`object`.presence.Presence
 import discord4j.core.event.domain.Event
 import discord4j.core.event.domain.message.MessageCreateEvent
 import discord4j.core.event.domain.message.ReactionAddEvent
+import discord4j.store.jdk.JdkStoreService
 import me.arrush.javabase.databases.Database
 import kotlin.system.measureTimeMillis
+
+
 
 
 enum class AsceticBot {
@@ -24,6 +28,7 @@ enum class AsceticBot {
     val commandManager: CommandManager = CommandManager()
     val messageScheduler: EventScheduler<MessageCreateEvent> = EventScheduler(MessageCreateEvent::class.java)
     val reactionScheduler: EventScheduler<ReactionAddEvent> = EventScheduler(ReactionAddEvent::class.java)
+    val cooldownApplier: CooldownApplier = CooldownApplier()
     val startTime: Long = System.currentTimeMillis()
     val database: Database = Database.withPostgres(5432, "postgres", "Arrush", "Arrush#24")!!
     val guildDb: GuildDatabase = GuildDatabase(this.database)
@@ -65,9 +70,11 @@ enum class AsceticBot {
     private fun initD4J(token: String) {
         val client = DiscordClientBuilder(token)
                 .setInitialPresence(Presence.doNotDisturb(Activity.listening("@Ascetic Bot help")))
+                .setStoreService(JdkStoreService())
                 .build()
 
         client.eventDispatcher.on(Event::class.java).subscribe { this.listenerManager.fireListeners(it) }
+
         client.eventDispatcher.on(MessageCreateEvent::class.java).subscribe { this.messageScheduler.onGenericEvent(it) }
         client.eventDispatcher.on(ReactionAddEvent::class.java).subscribe { this.reactionScheduler.onGenericEvent(it) }
 

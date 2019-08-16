@@ -23,7 +23,7 @@ class DbExecuteCommand : Command("dbexec", CommandCategory.DEVELOPERS, "dbexec <
         }
 
         val rs: String = try {
-            this.parseResult(query.fetchResult()) // needs fixing
+            this.parseResult(query.fetchResult())
         } catch (ignored: PSQLException) {
             "No results were returned by the query"
         }
@@ -32,7 +32,7 @@ class DbExecuteCommand : Command("dbexec", CommandCategory.DEVELOPERS, "dbexec <
                 "\n**Result:**\n```fix\n$rs\n```").then()
     }
 
-    private fun parseResult(rs: ResultSet): String{
+    private fun parseResult(rs: ResultSet): String {
         val list: MutableList<String> = mutableListOf()
         while (rs.next()) {
             val sb = StringBuilder()
@@ -43,20 +43,4 @@ class DbExecuteCommand : Command("dbexec", CommandCategory.DEVELOPERS, "dbexec <
         }
         return list.joinToString(separator = "\n")
     }
-
-    // Since projections are not allowed. so it depends on statement.
-
-    // Row based statements.
-
-    // SELECT FROM tableName
-    // INSERT INTO tableName
-    // UPDATE tableName
-    // DELETE FROM tableName
-
-    // Table or Database based statements.
-    // CREATE TABLE IF NOT EXISTS tableName
-    // DROP TABLE IF EXISTS tableName
-    // CREATE DATABASE
-    // CREATE TABLE
-
 }

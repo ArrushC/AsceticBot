@@ -14,12 +14,18 @@ class ExpCommand : Command("exp", CommandCategory.FUN, "exp", "Check where how m
     override fun onCommand(event: CommandEvent): Mono<Void> {
         val data = AsceticBot.INSTANCE.userDb.users[event.authorId.asLong()]!!
 
+        println("EXP: Okay")
+
         val totalExp = data.exp
         val level = data.lvl
+
+        println("EXP: very beter")
+
         val expToNext = (level + 1) * 100
         val barsNeeded = round(((totalExp / expToNext).toDouble())) * this.bars
         val barsRemaining = this.bars - barsNeeded
 
+        println("EXP: Close")
         return event.replyEmbed(event.getEmbed(
                 title = "Your EXP Information",
                 description = "Here I will tell you everything about your exp.",

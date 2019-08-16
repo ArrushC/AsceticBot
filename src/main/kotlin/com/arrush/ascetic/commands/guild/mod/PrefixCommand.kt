@@ -11,14 +11,10 @@ class PrefixCommand : Command("prefix", CommandCategory.MODERATION, "prefix [new
     override fun onCommand(event: CommandEvent): Mono<Void> {
         val guildDb = AsceticBot.INSTANCE.guildDb
         return if (event.hasArgs) {
-            val data = guildDb.guilds[event.guildId.asLong()]!!
-            val oldPrefix = data.prefix
-            data.prefix = event.args[0]
-            guildDb.modify(data)
-            event.replyAndGet("**Your prefix has been successfully changed from `$oldPrefix` to `${event.args[0]}` !**").then()
+            guildDb.guilds[event.guildId.asLong()]!!.changePrefix(event.args[0])
+            event.replyAndGet("**Your prefix has been successfully changed to `${event.args[0]}` !**").then()
         } else {
-            val prefix = guildDb.guilds[event.guildId.asLong()]!!.prefix
-            event.replyAndGet("**The prefix for this guild is currently `$prefix`**").then()
+            event.replyAndGet("**The prefix for this guild is currently `${guildDb.guilds[event.guildId.asLong()]!!.prefix}`**").then()
         }
     }
 
