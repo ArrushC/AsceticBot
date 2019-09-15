@@ -24,10 +24,7 @@ import kotlin.system.measureTimeMillis
 
 
 
-enum class AsceticBot {
-
-    INSTANCE;
-
+object AsceticBot {
     val listenerManager: ListenerManager = ListenerManager()
     val commandRegistry: CommandRegistry = CommandRegistry()
     val messageScheduler: EventScheduler<MessageCreateEvent> = EventScheduler(MessageCreateEvent::class.java)
@@ -38,11 +35,10 @@ enum class AsceticBot {
     val userDb: UserDatabase = UserDatabase(this.database)
     lateinit var botConfig: BotConfig
 
-    companion object {
-        @JvmStatic
-        fun main(vararg args: String) {
-            INSTANCE.start()
-        }
+
+    @JvmStatic
+    fun main(vararg args: String) {
+        start()
     }
 
     private fun start() {
@@ -99,6 +95,4 @@ enum class AsceticBot {
 
     fun updateGuildData(data: GuildData) = this.guildDb.modify(data)
     fun updateUserData(data: UserData) = this.userDb.modify(data)
-
-    // plan to add abstract data.
 }
