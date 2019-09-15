@@ -1,0 +1,85 @@
+{
+  "category.fun.description": "Fun commands to help you enjoy.",
+  "category.developers.description": "Commands that can only be used by developers.",
+  "category.moderators.description": "Moderating and administrating the guild in all possible angles.",
+  "category.settings.description": "Modify Ascetic Bot on a server basis.",
+  "category.utility.description": "Utilising the bot for your needs.",
+
+
+  "exp.levelup": ":up: **|** **Congratulations %s ! You just leveled up to lvl %s**",
+  "command.cooldown": "**%s Please wait for %s second(s) until you are allowed to use this command!**",
+  "command.permission.lack": "**%s Either you and/or I lack %s permission(s) to run this command.**",
+
+  "command.ping": "Pong",
+  "command.ping.edit": "Pong!\nTime taken: `%s` ms\nWebsocket: `%s` ms",
+  "command.ping.description": "Checks how good the connection is.",
+
+  "command.prefix.changed": "**Your prefix has been successfully changed to `%s` !**",
+  "command.prefix.current": "**The prefix for this guild is currently `%s`**",
+  "command.prefix.description": "Allows you to change or view your current prefix for this guild.",
+
+  "command.8ball.choices": [
+    "yes", "no", "definitely", "never", "undoubtedly", "no u",
+    "Not really", "Not answering that question", "Not sure", "Maybe",
+    "Its uncertain", "No, not in a million years"
+  ],
+  "command.8ball.embed.title": "Response to %s's question",
+  "command.8ball.description": "Ask a question and unfold the possibilites.",
+
+  "command.exp.embed.title": "Your EXP Information",
+  "command.exp.embed.description": "Here I will tell you everything about your exp.",
+  "command.exp.embed.fields": [
+    ["Current Level [{level}]", "Total: **{exp}} EXP", false],
+    ["Next Level [{level}]", "Remaining: **{exp} EXP**\n{block}", false]
+  ],
+  "command.exp.description": "Check your exp status like a gangstar...",
+
+  "command.help.search.notexist": "**%s Command does not exist. Please try again.**",
+  "command.help.search.command.single": "**Information about %s Command**\nDescription: **%s**\nHelp: **%s**",
+  "command.help.embed.field.value": "**Description:** %s\n**Help:** %s",
+  "command.help.description": "Provides information about my commands.",
+
+  "command.info.bot.embed.title": "Information about Ascetic Bot",
+  "command.info.bot.embed.description": "Hello! Here below are some things that you might get to know about me!",
+  "command.info.bot.embed.fields": [
+    ["Bot Version", "{bot.version}", true],
+    ["Bot Commands", "{size}", true],
+    ["D4J Version", "{d4j.version}", true],
+    ["CPU Usage", "CPU: `{cpu}`\nRAM: `{ram}`", true],
+    ["Memory Usage", "`{ram}` / `{total}`", true],
+    ["Thread Count", "{count}", true],
+    ["Uptime", "{uptime}", true]
+  ],
+  "command.info.embed.footer": "Requested by %s",
+  "command.info.description": "Tells you information about me or this guild!",
+
+  "command.ban.reason": "**%s has been banned**",
+  "command.ban.reason.full": "__**%s has been banned for the reason:**__\n%s",
+  "command.ban.description": "Bans someone from the server (comes with a reason too).",
+
+  "command.kick.reason": "**%s has been kicked**",
+  "command.kick.reason.full": "__**%s has been kicked for the reason:**__\n%s",
+  "command.kick.description": "Kicks someone from the user (with a reason).",
+
+  "command.prune.notprovided": "You must provide a number of messages to delete!",
+  "command.prune.pruned": ":wastebasket: **`%s` messages have been successfully recycled!** :wastebasket:",
+  "command.prune.description": "Deletes messages from a channel. (Maximum is 100)",
+
+  "command.language.current": "**The language for this server is currently set to `%s`**",
+  "command.language.changed": "**The language for this server has been successfully set to `%s` !**",
+  "command.language.description": "Sets the language of the bot.",
+
+  "command.talkshort.talks": [
+    "What do you like ?",
+    "Oh so you like {content} ?",
+    "That won't be enough. Tell me more about it!",
+    "Thats sounds interesting. It was nice talking to you {mention}",
+    "I'm always watching :eyes:"
+  ],
+  "command.talkshort.description": "Fun way of talking to me.",
+
+  "command.dbexec.description": "Executes database commands.",
+  "command.eval.description": "Evaluates code.",
+  "command.restart.description": "Restarts the bot or a shard.",
+  "command.test.description": "For developers to test some features..."
+}
