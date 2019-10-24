@@ -10,9 +10,9 @@ import reactor.core.publisher.Mono
 class LanguageCommand: Command("language", CommandCategory.SETTINGS, "language [en]", listOf(Permission.MANAGE_MESSAGES)) {
 
     override fun onCommand(event: MessageCreateEvent, vararg args: String): Mono<Void> {
-        val data = AsceticBot.INSTANCE.getGuildData(event.guildId())
+        val data = AsceticBot.getGuildData(event.guildId())
         data.language = args[0]
-        AsceticBot.INSTANCE.updateGuildData(data)
+        AsceticBot.updateGuildData(data)
         return Translator.any(event.language(), "command.language.changed").send(event.channel(), args[0]).then()
     }
 

@@ -12,7 +12,7 @@ class TalkShortCommand : Command("talkshort", CommandCategory.FUN,"{prefix}talks
     override fun onCommand(event: MessageCreateEvent, vararg args: String): Mono<Void> {
         val talks = Translator.any(event.language(), "command.talkshort.talks").array()
         event.reply(talks.string(0))
-        AsceticBot.INSTANCE.messageScheduler.scheduleChainedEvents({
+        AsceticBot.messageScheduler.scheduleChainedEvents({
             return@scheduleChainedEvents ScheduleStatus.fromLogic(sameAuthor(event, it) && sameChans(event, it))
         }, {
             event.reply(talks.string(1).replace("{content}", it.message.content.orElse("nothing")))

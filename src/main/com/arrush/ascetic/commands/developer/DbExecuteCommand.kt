@@ -18,9 +18,9 @@ class DbExecuteCommand : Command("dbexec", CommandCategory.DEVELOPERS, "dbexec <
     override fun onCommand(event: MessageCreateEvent, vararg args: String): Mono<Void> {
         val sqlCode = args.joinToString(separator = " ")
         val query = when {
-            sqlCode.toLowerCase().contains("TABLE") -> Query<Table>(AsceticBot.INSTANCE.database).withStatement(sqlCode)
-            sqlCode.toLowerCase().contains("DATABASE") -> Query<Database>(AsceticBot.INSTANCE.database).withStatement(sqlCode)
-            else -> Query<Row> (AsceticBot.INSTANCE.database).withStatement(sqlCode)
+            sqlCode.toLowerCase().contains("TABLE") -> Query<Table>(AsceticBot.database).withStatement(sqlCode)
+            sqlCode.toLowerCase().contains("DATABASE") -> Query<Database>(AsceticBot.database).withStatement(sqlCode)
+            else -> Query<Row> (AsceticBot.database).withStatement(sqlCode)
         }
 
 

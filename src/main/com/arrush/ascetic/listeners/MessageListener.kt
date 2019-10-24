@@ -30,32 +30,32 @@ class MessageListener: IListener {
         val args: MutableList<String> = event.args()
         val commandName = args.getAndRemove(0)
 
-        if (!AsceticBot.INSTANCE.commandRegistry.commands.containsKey(commandName)) return
-        if (AsceticBot.INSTANCE.isLockdown() && !DiscordUtils.isDeveloper(event.authorId())) return
-        if (AsceticBot.INSTANCE.commandRegistry.commands[commandName]?.category == CommandCategory.DEVELOPERS && !DiscordUtils.isDeveloper(event.authorId())) return
+        if (!AsceticBot.commandRegistry.commands.containsKey(commandName)) return
+        if (AsceticBot.isLockdown() && !DiscordUtils.isDeveloper(event.authorId())) return
+        if (AsceticBot.commandRegistry.commands[commandName]?.category == CommandCategory.DEVELOPERS && !DiscordUtils.isDeveloper(event.authorId())) return
 
         val key = "${event.member.map { it.id.asLong()}.orElse(0)}-cmd"
-        if (Constants.getDevIds().values.contains(event.member.map { it.id}.orElse(emptySnowflake())) || !CooldownApplier.INSTANCE.isOnCooldown(key)) {
-            AsceticBot.INSTANCE.commandRegistry.commands[commandName]!!.runCommand(event, *event.args().toTypedArray())
+        if (Constants.getDevIds().values.contains(event.member.map { it.id}.orElse(emptySnowflake())) || !CooldownApplier.isOnCooldown(key)) {
+            AsceticBot.commandRegistry.commands[commandName]!!.runCommand(event, *event.args().toTypedArray())
             if (!Constants.getDevIds().values.contains(event.member.map { it.id}.orElse(emptySnowflake()))) {
-                CooldownApplier.INSTANCE.applyCooldown(key, 3, ChronoUnit.SECONDS)
+                CooldownApplier.applyCooldown(key, 3, ChronoUnit.SECONDS)
             }
         } else {
             Translator.any(event.language(), "command.cooldown").send(event.channel(),
                     event.authorMention(),
-                    CooldownApplier.INSTANCE.remainingCooldownFor(key, TimeUnit.SECONDS).toString()
+                    CooldownApplier.remainingCooldownFor(key, TimeUnit.SECONDS).toString()
             ).subscribe()
         }
     }
 
     private fun addExp(event: MessageCreateEvent) {
         val userId = Objects.requireNonNull(event.member.map { it.id }.get())
-        val expData = Objects.requireNonNull(AsceticBot.INSTANCE.userDb.users[userId.asLong()]!!).expData // why does this not load lmao.
+        val expData = Objects.requireNonNull(AsceticBot.userDb.users[userId.asLong()]!!).expData // why does this not load lmao.
         val key = "${userId.asString()}-exp"
 
-        if (!CooldownApplier.INSTANCE.isOnCooldown(key)) {
+        if (!CooldownApplier.isOnCooldown(key)) {
             expData.addExp(Random.nextLong(3, 6))
-            CooldownApplier.INSTANCE.applyCooldown(key, 1, ChronoUnit.MINUTES)
+            CooldownApplier.applyCooldown(key, 1, ChronoUnit.MINUTES)
         }
 
         expData.levelUp { e ->

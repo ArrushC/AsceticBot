@@ -35,6 +35,6 @@ data class ExpData(private val userData: UserData) {
 
 
     fun save() {
-        AsceticBot.INSTANCE.userDb.modify(userData)
+        AsceticBot.userDb.modify(userData)
     }
 }

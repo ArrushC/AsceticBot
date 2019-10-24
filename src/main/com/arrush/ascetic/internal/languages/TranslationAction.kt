@@ -6,8 +6,11 @@ import discord4j.core.`object`.entity.MessageChannel
 import discord4j.core.`object`.entity.PrivateChannel
 import discord4j.core.spec.EmbedCreateSpec
 import reactor.core.publisher.Mono
+import reactor.core.publisher.toMono
 
 class TranslationAction internal constructor(private val lang: Language, private val key: String) {
+    private lateinit var translated: String
+
     // Methods for acquiring mainly the translated phrase of the message.
     fun translate(vararg args: Any) = this.lang.messagef(this.key, *args)
     fun array(): JSONArray = this.lang.messageArray(this.key)
@@ -20,4 +23,11 @@ class TranslationAction internal constructor(private val lang: Language, private
     // make one for emebed.
     fun embedFieldDesc(spec: EmbedCreateSpec, title: String, inline: Boolean=false, vararg args: String): EmbedCreateSpec = spec.addField(title, this.translate(*args), inline)
     fun embedFieldTitle(spec: EmbedCreateSpec, description: String, inline: Boolean=false, vararg args: String): EmbedCreateSpec = spec.addField(this.translate(*args), description, inline)
+
+    fun translateThen(vararg args: Any): TranslationAction {
+        this.translated = this.lang.messagef(this.key, *args)
+        return this
+    }
+
+    fun translateMono(vararg args: Any): Mono<String> = this.translate(*args).toMono()
 }

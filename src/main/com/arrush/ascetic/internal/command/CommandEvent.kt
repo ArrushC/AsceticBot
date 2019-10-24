@@ -32,14 +32,14 @@ fun MessageCreateEvent.args(): MutableList<String> {
 }
 
 fun MessageCreateEvent.guildId(): Snowflake = this.guildId.orElse(emptySnowflake())
-fun MessageCreateEvent.guildData(): GuildData = AsceticBot.INSTANCE.getGuildData(this.guildId())
+fun MessageCreateEvent.guildData(): GuildData = AsceticBot.getGuildData(this.guildId())
 fun MessageCreateEvent.language(): String = this.guildData().language
 fun MessageCreateEvent.prefix(): String = this.guildData().prefix
-fun MessageCreateEvent.retrievePrefix(): String = if (this.content().startsWith(AsceticBot.INSTANCE.getMention())) {
-    AsceticBot.INSTANCE.getMention()
-} else AsceticBot.INSTANCE.guildDb.guilds[this.guildId.orElse(null).asLong()]?.prefix ?: AsceticBot.INSTANCE.getPrefix()
-fun MessageCreateEvent.userData(): UserData = AsceticBot.INSTANCE.getUserData(this.authorId())
-fun MessageCreateEvent.expData(): ExpData = AsceticBot.INSTANCE.getExpData(this.authorId())
+fun MessageCreateEvent.retrievePrefix(): String = if (this.content().startsWith(AsceticBot.getMention())) {
+    AsceticBot.getMention()
+} else AsceticBot.guildDb.guilds[this.guildId.orElse(null).asLong()]?.prefix ?: AsceticBot.getPrefix()
+fun MessageCreateEvent.userData(): UserData = AsceticBot.getUserData(this.authorId())
+fun MessageCreateEvent.expData(): ExpData = AsceticBot.getExpData(this.authorId())
 fun MessageCreateEvent.channel(): Mono<MessageChannel> = this.message.channel
 fun MessageCreateEvent.content(): String = this.message.content.orElse("")
 fun MessageCreateEvent.contentClean(): String = this.args().removeAllAndForm { it.contains(Regex("(<(@|!@)([0-9]+)+>)+")) }.joinToString(separator = " ").removeSurrounding(" ")

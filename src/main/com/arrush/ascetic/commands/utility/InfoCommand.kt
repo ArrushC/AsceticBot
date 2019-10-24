@@ -24,14 +24,14 @@ class InfoCommand : Command("info", CommandCategory.UTILITY, "{prefix}info") {
         val cpu = osManagement.systemCpuLoad * 100
         val freeMemory = FileUtils.byteCountToDisplaySize(Runtime.getRuntime().freeMemory())
         val totalMemory = FileUtils.byteCountToDisplaySize(Runtime.getRuntime().totalMemory())
-        val uptimeDiff = System.currentTimeMillis() - AsceticBot.INSTANCE.startTime
+        val uptimeDiff = System.currentTimeMillis() - AsceticBot.startTime
         val uptime: String = SimpleDateFormat("dd-HH-mm").format(Date(uptimeDiff))
                 .orderedReplace("-", " days, ", " hours and ")+ " minutes" // need to do something with this to make it translatable.
 
         val botVersion = Translator.any(event.language(), "command.info.bot.embed.fields").array().array(0).toArray()
-                .replaceFieldValue("{bot.version}", AsceticBot.INSTANCE.getVersion()).toList()
+                .replaceFieldValue("{bot.version}", AsceticBot.getVersion()).toList()
         val botCmds = Translator.any(event.language(), "command.info.bot.embed.fields").array().array(1).toArray()
-                .replaceFieldValue("{size}", AsceticBot.INSTANCE.commandRegistry.commands.size.toString()).toList()
+                .replaceFieldValue("{size}", AsceticBot.commandRegistry.commands.size.toString()).toList()
         val d4jVersion = Translator.any(event.language(), "command.info.bot.embed.fields").array().array(2).toArray()
                 .replaceFieldValue("{d4j.version}", GitProperties.GIT_COMMIT_ID_DESCRIBE).toList()
         val cpuUsage = Translator.any(event.language(), "command.info.bot.embed.fields").array().array(3).toArray()

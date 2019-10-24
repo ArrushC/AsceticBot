@@ -16,7 +16,7 @@ class HelpCommand : Command("help", CommandCategory.UTILITY, "{prefix}help") {
 
     override fun onCommand(event: MessageCreateEvent, vararg args: String): Mono<Void> {
         val builder = PaginatorBuilder("helpCmd")
-        for (index in 0 until CommandCategory.values().size) {
+        for (index in CommandCategory.values().indices) {
             val category = CommandCategory.values()[index]
 
             // "command.help.embed.field.value": "**Description:** {description}\n**Help:** {help}",
@@ -27,7 +27,7 @@ class HelpCommand : Command("help", CommandCategory.UTILITY, "{prefix}help") {
                     .setFooter("Page ${index+1} / ${CommandCategory.values().size}", null)
                     .setTimestamp(Instant.now())
 
-                for ((name, command) in AsceticBot.INSTANCE.commandRegistry.commands.toList().stream().filter { it.second.category == category}.toList()) {
+                for ((name, command) in AsceticBot.commandRegistry.commands.toList().stream().filter { it.second.category == category}.toList()) {
                     spec.addField("${name.capitalize()} Command", Translator.any(event.language(), "command.help.embed.field.value").translate(command.getDescription(event.language()), command.help), true)
                 }
             }
@@ -40,7 +40,7 @@ class HelpCommand : Command("help", CommandCategory.UTILITY, "{prefix}help") {
     }
 
     private fun onSingleHelpCommand(event: MessageCreateEvent) {
-        val commands = AsceticBot.INSTANCE.commandRegistry.commands
+        val commands = AsceticBot.commandRegistry.commands
         val commandName = event.args()[0]
         if (!commands.containsKey(commandName)) {
             Translator.any(event.language(), "command.help.search.notexist").send(event.channel(), commandName.capitalize()).subscribe()

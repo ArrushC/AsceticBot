@@ -5,9 +5,7 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.concurrent.TimeUnit
 
-enum class CooldownApplier {
-
-    INSTANCE;
+object CooldownApplier {
 
     private val cooldowns: MutableMap<String, Instant> = mutableMapOf()
 

@@ -1,11 +1,12 @@
 package com.arrush.ascetic.internal.logger
 
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class Logger constructor(val name: String) {
 
     fun log(logType: LogType, message: String) {
-        println("[${LocalDateTime.now()}] [$logType] [$name]: $message")
+        println("[${LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss.SSS"))}] [$logType] [$name]: $message")
     }
 
     fun error(message: String) { this.log(LogType.ERROR, message) }

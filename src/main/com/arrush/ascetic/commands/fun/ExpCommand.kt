@@ -16,7 +16,7 @@ import java.text.DecimalFormat
 class ExpCommand : Command("exp", CommandCategory.FUN, "{prefix}exp") {
 
     override fun onCommand(event: MessageCreateEvent, vararg args: String): Mono<Void> {
-        val expData = AsceticBot.INSTANCE.getExpData(event.authorId())
+        val expData = AsceticBot.getExpData(event.authorId())
 
         val totalExp = expData.getExp()
         val level = expData.getLvl()
